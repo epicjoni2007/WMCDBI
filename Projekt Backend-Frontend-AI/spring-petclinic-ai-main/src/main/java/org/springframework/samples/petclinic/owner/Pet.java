@@ -60,6 +60,15 @@ public class Pet extends NamedEntity {
 	@OrderBy("date ASC")
 	private final Set<Visit> visits = new LinkedHashSet<>();
 
+	@Column(name = "weight")
+	private Double weight;
+
+	@Column(name = "breed")
+	private String breed;
+
+	@Column(name = "vaccination_status")
+	private String vaccinationStatus;
+
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
@@ -82,6 +91,30 @@ public class Pet extends NamedEntity {
 
 	public void addVisit(Visit visit) {
 		getVisits().add(visit);
+	}
+
+	public Double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Double weight) {
+		this.weight = weight;
+	}
+
+	public String getBreed() {
+		return breed;
+	}
+
+	public void setBreed(String breed) {
+		this.breed = breed;
+	}
+
+	public String getVaccinationStatus() {
+		return vaccinationStatus;
+	}
+
+	public void setVaccinationStatus(String vaccinationStatus) {
+		this.vaccinationStatus = vaccinationStatus;
 	}
 
 }

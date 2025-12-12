@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6f2bc87c-fca0-46fb-9318-1e7ad589332e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/1 openai-key.python-setup/hs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetAgeResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/1 openai-key.python-setup/responses.db" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/1 openai-key.python-setup/responses.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/CourseTrackerSpringBootApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/dto/AuthorCourseDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/ibp/DescriptionOnly.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/model/Author.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/model/AuthorCourse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/model/Course.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/repository/AuthorRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/4 bottom-up-implementierung/task2-bottomup-db/target/classes/com/manning/sbip/ch03/repository/CourseRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/Pet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="36jbrI4atHqrFSLj8toVQB4gbL3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "io.flutter.project.isFirstOpen": "true",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "SDK Location",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.0",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6f2bc87c-fca0-46fb-9318-1e7ad589332e" name="Changes" comment="" />
+      <created>1765523159417</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765523159417</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
