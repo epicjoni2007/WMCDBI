@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cf2dbfe3-9cc4-4c40-8516-fb0e258a5bb8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/Lastenheft_SpringPetclinic_Flutter.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/Petclinic.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/app.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/models/owner.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/pages/home_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/pages/owners/owner_detail_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/pages/owners/owners_list_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/providers/owner_provider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/services/api_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/widgets/app_drawer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/test/models_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../petclinic-frontend/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/main.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "fromonoa"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/epicjoni2007/WMCDBI.git",
+    "accountId": "f9fd87ef-a51b-4277-aa6c-cbf7d2a1038d"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="36jl1onAw2kZUNsB8dtH3abRe91" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/NB-Florian/Documents/Schule/WMCDBI/Projekt Backend-Frontend-AI",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf2dbfe3-9cc4-4c40-8516-fb0e258a5bb8" name="Changes" comment="" />
+      <created>1765527648370</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765527648370</updated>
+    </task>
+    <servers />
+  </component>
+</project>
