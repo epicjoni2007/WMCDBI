@@ -61,16 +61,130 @@ class _OwnersPageState extends State<OwnersPage> {
     setState(() => _selected = owner);
   }
 
-  void _editOwner(Owner owner) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Edit ${owner.fullName} (noch nicht implementiert)')));
+  Future<void> _showOwnerForm({Owner? owner}) async {
+    final isNew = owner == null;
+    final firstCtrl = TextEditingController(text: owner?.firstName ?? '');
+    final lastCtrl = TextEditingController(text: owner?.lastName ?? '');
+    final addrCtrl = TextEditingController(text: owner?.address ?? '');
+    final cityCtrl = TextEditingController(text: owner?.city ?? '');
+    final telCtrl = TextEditingController(text: owner?.telephone ?? '');
+    final formKey = GlobalKey<FormState>();
+
+    final saved = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(isNew ? 'New Owner' : 'Edit Owner'),
+        content: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  key: const ValueKey('firstName'),
+                  controller: firstCtrl,
+                  decoration: const InputDecoration(labelText: 'First name'),
+                  validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+                ),
+                TextFormField(
+                  key: const ValueKey('lastName'),
+                  controller: lastCtrl,
+                  decoration: const InputDecoration(labelText: 'Last name'),
+                  validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+                ),
+                TextFormField(
+                  key: const ValueKey('address'),
+                  controller: addrCtrl,
+                  decoration: const InputDecoration(labelText: 'Address'),
+                ),
+                TextFormField(
+                  key: const ValueKey('city'),
+                  controller: cityCtrl,
+                  decoration: const InputDecoration(labelText: 'City'),
+                ),
+                TextFormField(
+                  key: const ValueKey('telephone'),
+                  controller: telCtrl,
+                  decoration: const InputDecoration(labelText: 'Telephone'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
+          FilledButton(
+            key: const ValueKey('saveButton'),
+            onPressed: () async {
+              if (!formKey.currentState!.validate()) return;
+              final newOwner = Owner(
+                id: owner?.id ?? 0,
+                firstName: firstCtrl.text.trim(),
+                lastName: lastCtrl.text.trim(),
+                address: addrCtrl.text.trim(),
+                city: cityCtrl.text.trim(),
+                telephone: telCtrl.text.trim(),
+              );
+
+              try {
+                if (isNew) {
+                  final added = await MockService.addOwner(newOwner);
+                  // set selected to the newly added owner
+                  setState(() => _selected = added);
+                } else {
+                  final updated = await MockService.updateOwner(newOwner);
+                  setState(() => _selected = updated);
+                }
+                Navigator.of(ctx).pop(true);
+              } catch (e) {
+                // Fehleranzeige im Dialog ist hier einfach gehalten
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler: $e')));
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+
+    if (saved == true) {
+      _loadOwners();
+    }
   }
 
-  void _deleteOwner(Owner owner) {
-    setState(() {
-      _owners.removeWhere((o) => o.id == owner.id);
-      if (_selected?.id == owner.id) _selected = null;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${owner.fullName} gelöscht')));
+  void _editOwner(Owner owner) {
+    _showOwnerForm(owner: owner);
+  }
+
+  void _deleteOwner(Owner owner) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Owner'),
+        content: Text('Delete ${owner.fullName}?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
+          FilledButton(onPressed: () => Navigator.of(ctx).pop(true), child: const Text('Delete')),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    try {
+      final ok = await MockService.deleteOwner(owner.id);
+      if (ok) {
+        setState(() {
+          _owners.removeWhere((o) => o.id == owner.id);
+          if (_selected?.id == owner.id) _selected = null;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${owner.fullName} gelöscht')));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Löschen fehlgeschlagen')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler: $e')));
+    }
   }
 
   Widget _buildListPane() {
@@ -186,7 +300,7 @@ class _OwnersPageState extends State<OwnersPage> {
                 ),
                 FilledButton.icon(onPressed: _loadOwners, icon: const Icon(Icons.refresh), label: const Text('Refresh')),
                 const SizedBox(width: 12),
-                FilledButton.icon(onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('New Owner (noch nicht implementiert)'))), icon: const Icon(Icons.add), label: const Text('New Owner'))
+                FilledButton.icon(key: const ValueKey('newOwnerButton'), onPressed: () => _showOwnerForm(), icon: const Icon(Icons.add), label: const Text('New Owner'))
               ],
             ),
             const SizedBox(height: 12),

@@ -7,24 +7,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:wmcdbi_petclinic_frontend/main.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/owners_page.dart';
+import 'package:wmcdbi_petclinic_frontend/widgets/owner_card.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('OwnersPage zeigt die Owner aus dem MockService an und zeigt Details nach Tap', (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: OwnersPage()));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Warte auf asynchrone Laden-Operationen (MockService hat eine kleine Verzögerung)
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Mindestens einige Owner-Card-Widgets sollten angezeigt werden
+    expect(find.byType(OwnerCard), findsWidgets);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Überprüfe, dass ein bekannter Name in der Liste sichtbar ist
+    expect(find.text('Hans Müller'), findsOneWidget);
+
+    // Tippe die erste OwnerCard an, um die Detailansicht zu öffnen
+    final firstCard = find.byType(OwnerCard).first;
+    await tester.tap(firstCard);
+    await tester.pumpAndSettle();
+
+    // Nach dem Tippen sollte der Name des Owners auch in der Detail-Ansicht erscheinen
+    expect(find.text('Hans Müller'), findsWidgets);
   });
 }
