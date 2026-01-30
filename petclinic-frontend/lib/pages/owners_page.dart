@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../models/owner.dart';
-import '../services/mock_service.dart';
+import '../models/pet.dart';
+import '../models/visit.dart';
+import '../services/api_service.dart';
 import '../widgets/owner_card.dart';
+import '../widgets/pet_card.dart';
+import 'owner_detail_page.dart';
+import 'pet_form_page.dart';
+import 'visit_form_page.dart';
 
 class OwnersPage extends StatefulWidget {
   const OwnersPage({super.key});
@@ -19,6 +25,11 @@ class _OwnersPageState extends State<OwnersPage> {
   String? _error;
   Owner? _selected;
 
+  // detail data for wide layout
+  List<Pet> _detailPets = [];
+  List<Visit> _detailVisits = [];
+  bool _detailLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -30,19 +41,39 @@ class _OwnersPageState extends State<OwnersPage> {
       _loading = true;
       _error = null;
       _selected = null;
+      _detailPets = [];
+      _detailVisits = [];
     });
 
-    _futureOwners = MockService.fetchOwners();
+    _futureOwners = ApiService.getOwners();
     _futureOwners.then((list) {
+      if (!mounted) return;
       setState(() {
         _owners = list;
         _loading = false;
       });
     }).catchError((e) {
+      if (!mounted) return;
       setState(() {
         _error = e.toString();
         _loading = false;
       });
+    });
+  }
+
+  Future<void> _loadOwnerDetails(Owner owner) async {
+    setState(() {
+      _detailLoading = true;
+      _detailPets = [];
+      _detailVisits = [];
+    });
+    final pets = await ApiService.getPetsForOwner(owner.id);
+    final visits = await ApiService.getVisitsForOwner(owner.id);
+    if (!mounted) return;
+    setState(() {
+      _detailPets = pets;
+      _detailVisits = visits;
+      _detailLoading = false;
     });
   }
 
@@ -57,8 +88,13 @@ class _OwnersPageState extends State<OwnersPage> {
         .toList();
   }
 
-  void _selectOwner(Owner owner) {
-    setState(() => _selected = owner);
+  void _selectOwner(Owner owner, {required bool isWide}) {
+    if (isWide) {
+      setState(() => _selected = owner);
+      _loadOwnerDetails(owner);
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) => OwnerDetailPage(owner: owner)));
+    }
   }
 
   Future<void> _showOwnerForm({Owner? owner}) async {
@@ -128,16 +164,17 @@ class _OwnersPageState extends State<OwnersPage> {
 
               try {
                 if (isNew) {
-                  final added = await MockService.addOwner(newOwner);
-                  // set selected to the newly added owner
+                  final added = await ApiService.createOwner(newOwner);
+                  if (!mounted) return;
                   setState(() => _selected = added);
                 } else {
-                  final updated = await MockService.updateOwner(newOwner);
+                  final updated = await ApiService.updateOwner(newOwner);
+                  if (!mounted) return;
                   setState(() => _selected = updated);
                 }
                 Navigator.of(ctx).pop(true);
               } catch (e) {
-                // Fehleranzeige im Dialog ist hier einfach gehalten
+                if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler: $e')));
               }
             },
@@ -172,17 +209,21 @@ class _OwnersPageState extends State<OwnersPage> {
     if (confirmed != true) return;
 
     try {
-      final ok = await MockService.deleteOwner(owner.id);
+      final ok = await ApiService.deleteOwner(owner.id);
+      if (!mounted) return;
       if (ok) {
         setState(() {
           _owners.removeWhere((o) => o.id == owner.id);
           if (_selected?.id == owner.id) _selected = null;
+          _detailPets = [];
+          _detailVisits = [];
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${owner.fullName} gelöscht')));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Löschen fehlgeschlagen')));
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler: $e')));
     }
   }
@@ -194,18 +235,32 @@ class _OwnersPageState extends State<OwnersPage> {
     final list = _filteredOwners;
     if (list.isEmpty) return const Center(child: Text('Keine Einträge gefunden'));
 
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: 8, bottom: 8),
-      itemCount: list.length,
-      itemBuilder: (context, i) {
-        final owner = list[i];
-        return OwnerCard(
-          owner: owner,
-          onTap: () => _selectOwner(owner),
-          onEdit: () => _editOwner(owner),
-          onDelete: () => _deleteOwner(owner),
-        );
+    // Wrap list in RefreshIndicator so mobile can pull-to-refresh; use AlwaysScrollable when empty
+    return RefreshIndicator(
+      onRefresh: () async {
+        _loadOwners();
+        // wait until load completes
+        await _futureOwners;
       },
+      child: list.isEmpty
+          ? ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: const [SizedBox(height: 40), Center(child: Text('Keine Einträge gefunden'))],
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              itemCount: list.length,
+              itemBuilder: (context, i) {
+                final owner = list[i];
+                final isWide = MediaQuery.of(context).size.width > 900;
+                return OwnerCard(
+                  owner: owner,
+                  onTap: () => _selectOwner(owner, isWide: isWide),
+                  onEdit: () => _editOwner(owner),
+                  onDelete: () => _deleteOwner(owner),
+                );
+              },
+            ),
     );
   }
 
@@ -231,6 +286,7 @@ class _OwnersPageState extends State<OwnersPage> {
     }
 
     final o = _selected!;
+    if (_detailLoading) return const Center(child: CircularProgressIndicator());
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -243,7 +299,7 @@ class _OwnersPageState extends State<OwnersPage> {
                 children: [
                   CircleAvatar(
                     radius: 36,
-                    backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                    backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(31),
                     child: Text(o.firstName.isNotEmpty ? o.firstName[0] : '?', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(width: 16),
@@ -265,22 +321,81 @@ class _OwnersPageState extends State<OwnersPage> {
             ),
           ),
           const SizedBox(height: 12),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Pets', style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 8),
-                  Text('Noch keine Pet-Details implementiert', style: Theme.of(context).textTheme.bodyMedium),
-                ],
+          // Pets header + add button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Pets', style: Theme.of(context).textTheme.titleMedium),
+              FilledButton.icon(
+                onPressed: () async {
+                  final res = await Navigator.of(context).push<Pet>(
+                    MaterialPageRoute(builder: (_) => PetFormPage(initialOwnerId: o.id)),
+                  );
+                  if (res != null) {
+                    if (res.id == 0) {
+                      await ApiService.createPet(res);
+                    } else {
+                      await ApiService.updatePet(res);
+                    }
+                    await _loadOwnerDetails(o);
+                  }
+                },
+                icon: const Icon(Icons.add),
+                label: const Text('Add Pet'),
               ),
-            ),
+            ],
           ),
+          const SizedBox(height: 8),
+          if (_detailPets.isEmpty)
+            Card(child: Padding(padding: const EdgeInsets.all(12.0), child: Text('No pets found'))),
+          // List pets with edit action
+          for (final p in _detailPets) ...[
+            PetCard(
+              pet: p,
+              onEdit: () async {
+                final res = await Navigator.of(context).push<Pet>(
+                  MaterialPageRoute(builder: (_) => PetFormPage(pet: p, initialOwnerId: p.ownerId)),
+                );
+                if (res != null) {
+                  if (res.id == 0) {
+                    await ApiService.createPet(res);
+                  } else {
+                    await ApiService.updatePet(res);
+                  }
+                  await _loadOwnerDetails(o);
+                  _loadOwners();
+                }
+              },
+            ),
+          ],
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Visits', style: Theme.of(context).textTheme.titleMedium),
+              FilledButton.icon(onPressed: _addVisit, icon: const Icon(Icons.add), label: const Text('Add Visit')),
+            ],
+          ),
+          const SizedBox(height: 8),
+          if (_detailVisits.isEmpty) Card(child: Padding(padding: const EdgeInsets.all(12.0), child: Text('No visits found'))),
+          ..._detailVisits.map((v) => Card(child: ListTile(title: Text(v.description), subtitle: Text(v.date.toLocal().toString())))),
         ],
       ),
     );
+  }
+
+  Future<void> _addVisit() async {
+    if (_selected == null) return;
+    if (_detailPets.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Kein Pet vorhanden. Bitte zuerst ein Pet anlegen.')));
+      return;
+    }
+    final vets = await ApiService.getVets();
+    final res = await Navigator.of(context).push<Visit>(MaterialPageRoute(builder: (_) => VisitFormPage(pets: _detailPets, vets: vets)));
+    if (res != null) {
+      await ApiService.createVisit(res);
+      await _loadOwnerDetails(_selected!);
+    }
   }
 
   @override
@@ -298,7 +413,8 @@ class _OwnersPageState extends State<OwnersPage> {
                 Expanded(
                   child: Text('Owners', style: Theme.of(context).textTheme.headlineLarge),
                 ),
-                FilledButton.icon(onPressed: _loadOwners, icon: const Icon(Icons.refresh), label: const Text('Refresh')),
+                if (isWide)
+                  FilledButton.icon(onPressed: _loadOwners, icon: const Icon(Icons.refresh), label: const Text('Refresh')),
                 const SizedBox(width: 12),
                 FilledButton.icon(key: const ValueKey('newOwnerButton'), onPressed: () => _showOwnerForm(), icon: const Icon(Icons.add), label: const Text('New Owner'))
               ],
@@ -315,8 +431,7 @@ class _OwnersPageState extends State<OwnersPage> {
                         onChanged: (v) => setState(() => _filter = v),
                       ),
                     ),
-                    if (!isWide)
-                      FilledButton.icon(onPressed: _loadOwners, icon: const Icon(Icons.refresh), label: const Text('Refresh'))
+                    // secondary refresh intentionally removed for mobile
                   ],
                 ),
               ),

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/owners_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/pets_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/vets_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/settings_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/pets_visits_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/visits_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/dashboard_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +18,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Wähle eine Desktop-orientierte Farbpalette (kann auf Wunsch angepasst werden)
     final primaryColor = const Color(0xFF116E57); // dunkelgrün-emerald
-    final secondaryColor = const Color(0xFF8ABF9A); // helles grün
     final colorScheme = ColorScheme.fromSeed(seedColor: primaryColor);
 
     return MaterialApp(
@@ -58,8 +63,10 @@ class _HomeShellState extends State<HomeShell> {
   int _selectedIndex = 0;
 
   static const _navItems = <NavigationDestination>[
+    NavigationDestination(icon: Icon(Icons.dashboard), label: 'Dashboard'),
     NavigationDestination(icon: Icon(Icons.pets), label: 'Owners'),
-    NavigationDestination(icon: Icon(Icons.local_hospital), label: 'Pets/Visits'),
+    NavigationDestination(icon: Icon(Icons.pets), label: 'Pets'),
+    NavigationDestination(icon: Icon(Icons.event), label: 'Termine'),
     NavigationDestination(icon: Icon(Icons.group), label: 'Vets'),
     NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
   ];
@@ -67,7 +74,17 @@ class _HomeShellState extends State<HomeShell> {
   Widget _buildBody() {
     switch (_selectedIndex) {
       case 0:
+        return const DashboardPage();
+      case 1:
         return const OwnersPage();
+      case 2:
+        return const PetsPage();
+      case 3:
+        return const VisitsPage();
+      case 4:
+        return const VetsPage();
+      case 5:
+        return const SettingsPage();
       default:
         return Center(
           child: Text('Seite: ${_navItems[_selectedIndex].label} (noch nicht implementiert)'),
@@ -99,8 +116,10 @@ class _HomeShellState extends State<HomeShell> {
               onDestinationSelected: (i) => setState(() => _selectedIndex = i),
               labelType: NavigationRailLabelType.all,
               destinations: const [
+                NavigationRailDestination(icon: Icon(Icons.dashboard), label: Text('Dashboard')),
                 NavigationRailDestination(icon: Icon(Icons.pets), label: Text('Owners')),
-                NavigationRailDestination(icon: Icon(Icons.local_hospital), label: Text('Pets')),
+                NavigationRailDestination(icon: Icon(Icons.pets), label: Text('Pets')),
+                NavigationRailDestination(icon: Icon(Icons.event), label: Text('Termine')),
                 NavigationRailDestination(icon: Icon(Icons.group), label: Text('Vets')),
                 NavigationRailDestination(icon: Icon(Icons.settings), label: Text('Settings')),
               ],

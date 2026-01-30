@@ -21,7 +21,7 @@ class OwnerCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 30,
-                backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(31),
                 child: Text(
                   owner.firstName.isNotEmpty ? owner.firstName[0] : '?',
                   style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
@@ -35,28 +35,44 @@ class OwnerCard extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(owner.fullName, style: Theme.of(context).textTheme.titleMedium),
+                          child: Text(
+                            owner.fullName,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Text('#${owner.id}', style: Theme.of(context).textTheme.bodySmall),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text(owner.address, style: Theme.of(context).textTheme.bodyMedium),
+                    Text(
+                      owner.address,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 6),
                     Wrap(
                       spacing: 8,
                       runSpacing: 6,
                       children: [
-                        Chip(label: Text(owner.city)),
-                        Chip(
-                          label: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.phone, size: 16),
-                              const SizedBox(width: 6),
-                              Text(owner.telephone),
-                            ],
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 120),
+                          child: Chip(label: Text(owner.city, overflow: TextOverflow.ellipsis)),
+                        ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 160),
+                          child: Chip(
+                            label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.phone, size: 16),
+                                const SizedBox(width: 6),
+                                Flexible(child: Text(owner.telephone, overflow: TextOverflow.ellipsis)),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -65,20 +81,29 @@ class OwnerCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    tooltip: 'Edit',
-                    onPressed: onEdit,
-                    icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  IconButton(
-                    tooltip: 'Delete',
-                    onPressed: onDelete,
-                    icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
-                  ),
-                ],
+              SizedBox(
+                width: 110,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      tooltip: 'Edit',
+                      onPressed: onEdit,
+                      icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary),
+                      constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                      padding: const EdgeInsets.all(8),
+                      iconSize: 20,
+                    ),
+                    IconButton(
+                      tooltip: 'Delete',
+                      onPressed: onDelete,
+                      icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
+                      constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                      padding: const EdgeInsets.all(8),
+                      iconSize: 20,
+                    ),
+                  ],
+                ),
               )
             ],
           ),
