@@ -5,6 +5,7 @@ import '../pages/visits_page.dart';
 import '../pages/vets_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/dashboard_page.dart';
+import '../theme/app_theme.dart';
 
 void main() {
   runApp(const AdminApp());
@@ -15,14 +16,9 @@ class AdminApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = const Color(0xFF116E57);
-    final colorScheme = ColorScheme.fromSeed(seedColor: primaryColor);
     return MaterialApp(
       title: 'Petclinic - Admin',
-      theme: ThemeData(
-        colorScheme: colorScheme,
-        useMaterial3: true,
-      ),
+      theme: appTheme(),
       home: const AdminShell(),
     );
   }

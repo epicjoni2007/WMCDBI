@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/owners_page.dart';
+import 'package:wmcdbi_petclinic_frontend/pages/dashboard_page.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/pets_page.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/vets_page.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/settings_page.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/pets_visits_page.dart';
 import 'package:wmcdbi_petclinic_frontend/pages/visits_page.dart';
-import 'package:wmcdbi_petclinic_frontend/pages/dashboard_page.dart';
+import 'package:wmcdbi_petclinic_frontend/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,37 +17,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Wähle eine Desktop-orientierte Farbpalette (kann auf Wunsch angepasst werden)
-    final primaryColor = const Color(0xFF116E57); // dunkelgrün-emerald
-    final colorScheme = ColorScheme.fromSeed(seedColor: primaryColor);
-
     return MaterialApp(
       title: 'Spring Petclinic - Flutter',
-      theme: ThemeData(
-        colorScheme: colorScheme,
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.grey[50],
-        appBarTheme: AppBarTheme(
-          backgroundColor: colorScheme.primary,
-          foregroundColor: colorScheme.onPrimary,
-          elevation: 2,
-          centerTitle: false,
-        ),
-        cardTheme: CardThemeData(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          elevation: 2,
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        ),
-        textTheme: TextTheme(
-          headlineLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.grey[900]),
-          headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.grey[900]),
-          titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          bodyLarge: TextStyle(fontSize: 15, color: Colors.grey[800]),
-          bodyMedium: TextStyle(fontSize: 14, color: Colors.grey[700]),
-          bodySmall: TextStyle(fontSize: 12, color: Colors.grey[600]),
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: appTheme(),
       home: const HomeShell(),
     );
   }
@@ -61,6 +34,8 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> {
   int _selectedIndex = 0;
+  final TextEditingController _searchController = TextEditingController();
+  String _search = '';
 
   static const _navItems = <NavigationDestination>[
     NavigationDestination(icon: Icon(Icons.dashboard), label: 'Dashboard'),
@@ -92,43 +67,125 @@ class _HomeShellState extends State<HomeShell> {
     }
   }
 
+  Widget _sideNavButton(IconData icon, int index, String tooltip) {
+    final selected = _selectedIndex == index;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: InkWell(
+        onTap: () => setState(() => _selectedIndex = index),
+        borderRadius: BorderRadius.circular(6),
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: selected ? Theme.of(context).colorScheme.primary.withOpacity(0.12) : Colors.transparent,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Icon(icon, color: selected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface, size: 22),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width > 800;
 
     return Scaffold(
       appBar: AppBar(
-        // Logo-ähnliches Icon + Title, Desktop-Layout
+        // Compact logo left; search on wide screens; title for narrow
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
+        elevation: 1,
         title: Row(
           children: [
-            Icon(Icons.pets, size: 28, color: Theme.of(context).colorScheme.onPrimary),
+            // compact logo box
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(4)),
+              child: Icon(Icons.pets, size: 20, color: Theme.of(context).colorScheme.onPrimary),
+            ),
             const SizedBox(width: 12),
-            Text('Spring Petclinic', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary)),
+            if (isWide)
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: (v) => setState(() => _search = v),
+                  decoration: InputDecoration(
+                    hintText: 'Suchen (Name, Stadt, Tier)',
+                    prefixIcon: const Icon(Icons.search),
+                    isDense: true,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                ),
+              )
+            else
+              Text('Spring Petclinic', style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
-        elevation: 2,
+        actions: [
+          IconButton(onPressed: () => setState(() => _selectedIndex = 5), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onSurface)),
+          IconButton(onPressed: () {/* TODO: profile */}, icon: Icon(Icons.account_circle, color: Theme.of(context).colorScheme.onSurface)),
+        ],
       ),
-      body: Row(
+      body: Column(
         children: [
           if (isWide)
-            NavigationRail(
-              selectedIndex: _selectedIndex,
-              onDestinationSelected: (i) => setState(() => _selectedIndex = i),
-              labelType: NavigationRailLabelType.all,
-              destinations: const [
-                NavigationRailDestination(icon: Icon(Icons.dashboard), label: Text('Dashboard')),
-                NavigationRailDestination(icon: Icon(Icons.pets), label: Text('Owners')),
-                NavigationRailDestination(icon: Icon(Icons.pets), label: Text('Pets')),
-                NavigationRailDestination(icon: Icon(Icons.event), label: Text('Termine')),
-                NavigationRailDestination(icon: Icon(Icons.group), label: Text('Vets')),
-                NavigationRailDestination(icon: Icon(Icons.settings), label: Text('Settings')),
-              ],
-            )
-          else
-            const SizedBox.shrink(),
-          Expanded(
-            child: _buildBody(),
-          ),
+            // Top horizontal navigation
+            Container(
+              color: Theme.of(context).colorScheme.surface,
+              height: 64,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(children: [
+                // Logo
+                GestureDetector(
+                  onTap: () => setState(() => _selectedIndex = 0),
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(4)),
+                    child: Icon(Icons.pets, color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // Nav items
+                for (var i = 0; i < _navItems.length; i++) ...[
+                  GestureDetector(
+                    onTap: () => setState(() => _selectedIndex = i),
+                    child: Builder(builder: (ctx) {
+                      // extract IconData from the widget stored in NavigationDestination.icon
+                      final widgetIcon = _navItems[i].icon;
+                      IconData navIconData = Icons.circle;
+                      if (widgetIcon is Icon) {
+                        navIconData = widgetIcon.icon ?? Icons.circle;
+                      }
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: _selectedIndex == i ? Theme.of(context).colorScheme.primary.withOpacity(0.12) : Colors.transparent,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(children: [
+                          Icon(navIconData, color: _selectedIndex == i ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface, size: 18),
+                          const SizedBox(width: 8),
+                          Text(_navItems[i].label!, style: TextStyle(color: _selectedIndex == i ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface)),
+                        ]),
+                      );
+                    }),
+                  ),
+                ],
+                const Spacer(),
+                // optional quick actions on the right of top nav
+                IconButton(onPressed: () => setState(() => _selectedIndex = 5), icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onSurface)),
+                const SizedBox(width: 8),
+                IconButton(onPressed: () {/* profile */}, icon: Icon(Icons.account_circle, color: Theme.of(context).colorScheme.onSurface)),
+              ]),
+            ),
+          // Main content
+          Expanded(child: _buildBody()),
         ],
       ),
       bottomNavigationBar: isWide
@@ -139,5 +196,11 @@ class _HomeShellState extends State<HomeShell> {
               destinations: _navItems,
             ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }

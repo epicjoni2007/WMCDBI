@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'user_page.dart';
+import '../theme/app_theme.dart';
 
 void main() {
   runApp(const UserApp());
@@ -10,14 +11,9 @@ class UserApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = const Color(0xFF116E57);
-    final colorScheme = ColorScheme.fromSeed(seedColor: primaryColor);
     return MaterialApp(
       title: 'Petclinic - User',
-      theme: ThemeData(
-        colorScheme: colorScheme,
-        useMaterial3: true,
-      ),
+      theme: appTheme(),
       home: const UserPage(),
     );
   }
