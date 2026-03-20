@@ -56,9 +56,7 @@ version = "3.5.0-SNAPSHOT"
 description = "petclinic"
 java {
     sourceCompatibility = JavaVersion.VERSION_17
-    toolchain {
-        languageVersion.set(org.gradle.jvm.toolchain.JavaLanguageVersion.of(17))
-    }
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 publishing {

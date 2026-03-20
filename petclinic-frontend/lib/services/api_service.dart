@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import 'package:wmcdbi_petclinic_frontend/models/pet.dart';
 import 'package:wmcdbi_petclinic_frontend/models/vet.dart';
@@ -6,197 +9,215 @@ import 'package:wmcdbi_petclinic_frontend/models/visit.dart';
 import 'package:wmcdbi_petclinic_frontend/models/owner.dart';
 import 'mock_service.dart';
 
-// Einfache ApiService-Implementierung, die aktuell Mock-Daten verwendet.
-// Später kann `useMock = false` auf echte HTTP-Requests umgestellt werden.
+// ApiService: verwendet standardmäßig HTTP-Requests gegen das Backend.
+// Falls `useMock == true`, wird die vorhandene Mock-Implementierung verwendet (nützlich für Entwicklung ohne Backend).
 class ApiService {
-  static bool useMock = true;
+  // Wenn true -> MockService verwenden; wenn false -> echte HTTP-Requests
+  static bool useMock = false; // <-- geändert: nicht mehr lokal (Mock) als default
 
-  // --- Owners ---
-  static Future<List<Owner>> getOwners() async {
-    if (useMock) return MockService.fetchOwners();
-    // TODO: echte HTTP-Implementierung
-    return MockService.fetchOwners();
+  // Basis-URL des Backends (kann per --dart-define oder Programmatisch angepasst werden)
+  static String baseUrl = const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8080');
+
+  static Map<String, String> get _jsonHeaders => {'Content-Type': 'application/json'};
+
+  // Helper zum Parsen einer möglichen paged response
+  static List<T> _extractList<T>(dynamic data, T Function(Map<String, dynamic>) mapper) {
+    if (data == null) return [];
+    if (data is List) return data.map((e) => mapper(e as Map<String, dynamic>)).toList();
+    if (data is Map && data['content'] is List) return (data['content'] as List).map((e) => mapper(e as Map<String, dynamic>)).toList();
+    return [];
   }
 
-  static Future<Owner> getOwner(int id) async {
-    final list = await getOwners();
-    return list.firstWhere((o) => o.id == id);
+  // --- Owners ---
+  static Future<List<Owner>> getOwners({String? q, String? city}) async {
+    if (useMock) return MockService.fetchOwners();
+    final uri = Uri.parse('$baseUrl/api/owners').replace(queryParameters: {
+      if (q != null && q.isNotEmpty) 'q': q,
+      if (city != null && city.isNotEmpty) 'city': city,
+    });
+    final res = await http.get(uri);
+    if (res.statusCode == 200) {
+      final data = json.decode(res.body);
+      return _extractList<Owner>(data, (m) => Owner.fromJson(m));
+    }
+    throw Exception('getOwners failed: ${res.statusCode} ${res.body}');
+  }
+
+  static Future<Owner> getOwner(int id, {bool includePets = false}) async {
+    if (useMock) return MockService.fetchOwners().then((l) => l.firstWhere((o) => o.id == id));
+    final uri = Uri.parse('$baseUrl/api/owners/$id').replace(queryParameters: {
+      if (includePets) 'includePets': 'true',
+    });
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return Owner.fromJson(json.decode(res.body));
+    throw Exception('getOwner $id failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Owner> createOwner(Owner owner) async {
-    if (useMock) {
-      print('[ApiService] createOwner called: ${owner.firstName} ${owner.lastName}');
-      return MockService.addOwner(owner);
-    }
-    print('[ApiService] createOwner (no-mock) called');
-    return MockService.addOwner(owner);
+    if (useMock) return MockService.addOwner(owner);
+    final uri = Uri.parse('$baseUrl/api/owners');
+    final body = Map<String, dynamic>.from(owner.toJson());
+    // remove id for create if 0
+    if (body['id'] == 0) body.remove('id');
+    final res = await http.post(uri, headers: _jsonHeaders, body: json.encode(body));
+    if (res.statusCode == 200 || res.statusCode == 201) return Owner.fromJson(json.decode(res.body));
+    throw Exception('createOwner failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Owner> updateOwner(Owner owner) async {
-    if (useMock) {
-      print('[ApiService] updateOwner called: id=${owner.id} ${owner.firstName} ${owner.lastName}');
-      return MockService.updateOwner(owner);
-    }
-    print('[ApiService] updateOwner (no-mock) called');
-    return MockService.updateOwner(owner);
+    if (useMock) return MockService.updateOwner(owner);
+    final uri = Uri.parse('$baseUrl/api/owners/${owner.id}');
+    final body = Map<String, dynamic>.from(owner.toJson());
+    body.remove('id');
+    final res = await http.put(uri, headers: _jsonHeaders, body: json.encode(body));
+    if (res.statusCode == 200) return Owner.fromJson(json.decode(res.body));
+    throw Exception('updateOwner failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<bool> deleteOwner(int id) async {
-    if (useMock) {
-      print('[ApiService] deleteOwner called: id=$id');
-      return MockService.deleteOwner(id);
-    }
-    print('[ApiService] deleteOwner (no-mock) called');
-    return MockService.deleteOwner(id);
+    if (useMock) return MockService.deleteOwner(id);
+    final uri = Uri.parse('$baseUrl/api/owners/$id');
+    final res = await http.delete(uri);
+    return res.statusCode == 200 || res.statusCode == 204;
   }
 
-  // --- Pets (sehr einfache In-Memory Mock-Implementierung) ---
-  static final Map<int, List<Pet>> _petsByOwner = {
-    1: [
-      Pet(id: 1, name: 'Bello', birthDate: DateTime(2018, 5, 20), type: 'dog', ownerId: 1),
-    ],
-    2: [
-      Pet(id: 2, name: 'Lucy', birthDate: DateTime(2016, 3, 12), type: 'cat', ownerId: 2),
-    ],
-  };
-
-  static int _nextPetId = 3;
-
+  // --- Pets ---
   static Future<List<Pet>> getPetsForOwner(int ownerId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    return List<Pet>.from(_petsByOwner[ownerId] ?? []);
+    if (useMock) return MockService.getPetsForOwner(ownerId);
+    final uri = Uri.parse('$baseUrl/api/pets/owners/$ownerId/pets');
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return _extractList<Pet>(json.decode(res.body), (m) => Pet.fromJson(m));
+    throw Exception('getPetsForOwner failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<List<Pet>> getAllPets() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    final all = _petsByOwner.values.expand((list) => list).toList();
-    return List<Pet>.from(all);
+    if (useMock) return MockService.getAllPets();
+    final uri = Uri.parse('$baseUrl/api/pets');
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return _extractList<Pet>(json.decode(res.body), (m) => Pet.fromJson(m));
+    throw Exception('getAllPets failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Pet> createPet(Pet pet) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    final id = _nextPetId++;
-    final newPet = Pet(id: id, name: pet.name, birthDate: pet.birthDate, type: pet.type, ownerId: pet.ownerId);
-    _petsByOwner.putIfAbsent(pet.ownerId, () => []).add(newPet);
-    print('[ApiService] createPet: id=$id name=${pet.name} owner=${pet.ownerId}');
-    return newPet;
+    if (useMock) return _createPetMock(pet);
+    final uri = Uri.parse('$baseUrl/api/pets');
+    final body = Map<String, dynamic>.from(pet.toJson());
+    if (body['id'] == 0) body.remove('id');
+    final res = await http.post(uri, headers: _jsonHeaders, body: json.encode(body));
+    if (res.statusCode == 200 || res.statusCode == 201) return Pet.fromJson(json.decode(res.body));
+    throw Exception('createPet failed: ${res.statusCode} ${res.body}');
   }
 
-  // Update pet - possibly reassign to another owner
   static Future<Pet> updatePet(Pet pet) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    print('[ApiService] updatePet called: id=${pet.id} name=${pet.name} owner=${pet.ownerId}');
-    // Find and remove from previous owner list
-    for (final entry in _petsByOwner.entries) {
-      final idx = entry.value.indexWhere((p) => p.id == pet.id);
-      if (idx != -1) {
-        // if owner changed, remove and add to new owner; else replace
-        if (entry.key != pet.ownerId) {
-          entry.value.removeAt(idx);
-          _petsByOwner.putIfAbsent(pet.ownerId, () => []).add(pet);
-        } else {
-          entry.value[idx] = pet;
-        }
-        return pet;
-      }
-    }
-    // Not found: add as new
-    _petsByOwner.putIfAbsent(pet.ownerId, () => []).add(pet);
-    return pet;
+    if (useMock) return MockService.updatePet(pet);
+    final uri = Uri.parse('$baseUrl/api/pets/${pet.id}');
+    final body = Map<String, dynamic>.from(pet.toJson());
+    body.remove('id');
+    final res = await http.put(uri, headers: _jsonHeaders, body: json.encode(body));
+    if (res.statusCode == 200) return Pet.fromJson(json.decode(res.body));
+    throw Exception('updatePet failed: ${res.statusCode} ${res.body}');
   }
 
-  // --- Vets (static mock list) ---
-  static final List<Vet> _vets = [
-    Vet(id: 1, firstName: 'James', lastName: 'Carter', specialties: ['dentistry']),
-    Vet(id: 2, firstName: 'Helen', lastName: 'Leary', specialties: ['surgery']),
-  ];
+  static Future<bool> deletePet(int id) async {
+    if (useMock) return MockService.deletePet(id);
+    final uri = Uri.parse('$baseUrl/api/pets/$id');
+    final res = await http.delete(uri);
+    return res.statusCode == 200 || res.statusCode == 204;
+  }
 
-  static int _nextVetId = 3;
-
+  // --- Vets ---
   static Future<List<Vet>> getVets() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    return List<Vet>.from(_vets);
+    if (useMock) return MockService.fetchVets();
+    final uri = Uri.parse('$baseUrl/api/vets').replace(queryParameters: {'arg0': '0,100'});
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return _extractList<Vet>(json.decode(res.body), (m) => Vet.fromJson(m));
+    throw Exception('getVets failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Vet> createVet(Vet vet) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    final id = _nextVetId++;
-    final newVet = Vet(id: id, firstName: vet.firstName, lastName: vet.lastName, specialties: List<String>.from(vet.specialties));
-    _vets.add(newVet);
-    print('[ApiService] createVet: id=$id name=${vet.firstName} ${vet.lastName}');
-    return newVet;
+    if (useMock) return MockService.addVet(vet);
+    final uri = Uri.parse('$baseUrl/api/vets');
+    final res = await http.post(uri, headers: _jsonHeaders, body: json.encode(vet.toJson()));
+    if (res.statusCode == 200 || res.statusCode == 201) return Vet.fromJson(json.decode(res.body));
+    throw Exception('createVet failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Vet> updateVet(Vet vet) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    print('[ApiService] updateVet called: id=${vet.id} name=${vet.firstName} ${vet.lastName}');
-    final idx = _vets.indexWhere((v) => v.id == vet.id);
-    if (idx == -1) throw Exception('Vet not found');
-    _vets[idx] = vet;
-    return vet;
+    if (useMock) return MockService.updateVet(vet);
+    final uri = Uri.parse('$baseUrl/api/vets/${vet.id}');
+    final res = await http.put(uri, headers: _jsonHeaders, body: json.encode(vet.toJson()));
+    if (res.statusCode == 200) return Vet.fromJson(json.decode(res.body));
+    throw Exception('updateVet failed: ${res.statusCode} ${res.body}');
+  }
+
+  static Future<bool> deleteVet(int id) async {
+    if (useMock) return MockService.deleteVet(id);
+    final uri = Uri.parse('$baseUrl/api/vets/$id');
+    final res = await http.delete(uri);
+    return res.statusCode == 200 || res.statusCode == 204;
   }
 
   // --- Visits ---
-  static final List<Visit> _visits = [
-    Visit(id: 1, petId: 1, vetId: 1, date: DateTime.now().subtract(const Duration(days: 30)), description: 'Annual check'),
-  ];
-  static int _nextVisitId = 2;
-
   static Future<List<Visit>> getVisitsForOwner(int ownerId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    final pets = _petsByOwner[ownerId] ?? [];
-    final petIds = pets.map((p) => p.id).toSet();
-    return _visits.where((v) => petIds.contains(v.petId)).toList();
+    if (useMock) return MockService.getVisitsForOwner(ownerId);
+    final uri = Uri.parse('$baseUrl/api/visits/owners/$ownerId/visits');
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return _extractList<Visit>(json.decode(res.body), (m) => Visit.fromJson(m));
+    throw Exception('getVisitsForOwner failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<List<Visit>> getAllVisits() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    return List<Visit>.from(_visits);
+    if (useMock) return MockService.getAllVisits();
+    final uri = Uri.parse('$baseUrl/api/visits').replace(queryParameters: {'arg2': '0,100'});
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return _extractList<Visit>(json.decode(res.body), (m) => Visit.fromJson(m));
+    throw Exception('getAllVisits failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Visit> createVisit(Visit visit) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    final id = _nextVisitId++;
-    final newVisit = Visit(id: id, petId: visit.petId, vetId: visit.vetId, date: visit.date, description: visit.description);
-    _visits.add(newVisit);
-    print('[ApiService] createVisit: id=$id pet=${visit.petId} vet=${visit.vetId} desc=${visit.description}');
-    return newVisit;
+    if (useMock) return MockService.createVisit(visit);
+    final uri = Uri.parse('$baseUrl/api/visits');
+    final body = visit.toJson();
+    if (body['id'] == 0) body.remove('id');
+    final res = await http.post(uri, headers: _jsonHeaders, body: json.encode(body));
+    if (res.statusCode == 200 || res.statusCode == 201) return Visit.fromJson(json.decode(res.body));
+    throw Exception('createVisit failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<Visit> updateVisit(Visit visit) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    print('[ApiService] updateVisit called: id=${visit.id} pet=${visit.petId} vet=${visit.vetId}');
-    final idx = _visits.indexWhere((v) => v.id == visit.id);
-    if (idx == -1) throw Exception('Visit not found');
-    _visits[idx] = visit;
-    return visit;
+    if (useMock) return MockService.updateVisit(visit);
+    final uri = Uri.parse('$baseUrl/api/visits/${visit.id}');
+    final body = visit.toJson();
+    body.remove('id');
+    final res = await http.put(uri, headers: _jsonHeaders, body: json.encode(body));
+    if (res.statusCode == 200) return Visit.fromJson(json.decode(res.body));
+    throw Exception('updateVisit failed: ${res.statusCode} ${res.body}');
   }
 
   static Future<bool> deleteVisit(int id) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    print('[ApiService] deleteVisit called: id=$id');
-    final initial = _visits.length;
-    _visits.removeWhere((v) => v.id == id);
-    return _visits.length != initial;
+    if (useMock) return MockService.deleteVisit(id);
+    final uri = Uri.parse('$baseUrl/api/visits/$id');
+    final res = await http.delete(uri);
+    return res.statusCode == 200 || res.statusCode == 204;
   }
 
-  // Helpers to resolve pet/vet by id
+  // Helpers (mock fallbacks kept)
   static Future<Pet?> getPetById(int id) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    for (final list in _petsByOwner.values) {
-      for (final p in list) {
-        if (p.id == id) return p;
-      }
-    }
+    if (useMock) return MockService.getPetById(id);
+    final uri = Uri.parse('$baseUrl/api/pets/$id');
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return Pet.fromJson(json.decode(res.body));
     return null;
   }
 
   static Future<Vet?> getVetById(int id) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    try {
-      return _vets.firstWhere((v) => v.id == id);
-    } catch (_) {
-      return null;
-    }
+    if (useMock) return MockService.getVetById(id);
+    final uri = Uri.parse('$baseUrl/api/vets/$id');
+    final res = await http.get(uri);
+    if (res.statusCode == 200) return Vet.fromJson(json.decode(res.body));
+    return null;
   }
+
+  // Internal helper to keep older mock createPet behaviour when useMock==true
+  static Future<Pet> _createPetMock(Pet pet) async => MockService.addPet(pet);
 }
