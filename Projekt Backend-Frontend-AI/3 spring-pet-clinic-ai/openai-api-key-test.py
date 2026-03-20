@@ -5,19 +5,20 @@ def main():
     # Make sure your API key is set as an environment variable:
     # export OPENAI_API_KEY="your_api_key_here"
     api_key = os.getenv("OPENAI_API_KEY")
-    #OPENAI_API_KEY=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
+    #api_key="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"
     if not api_key:
         print("❌ No API key found. Please set the OPENAI_API_KEY environment variable.")
         return
 
     client = OpenAI(api_key=api_key)
 
+
     try:
         response = client.chat.completions.create(
             model="gpt-4.1-mini",  # You can switch to "gpt-4.1" or others
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "Say hello! This is just a test."}
+                {"role": "system", "content": "You are a helpful assistant."}
+                #{"role": "user", "content": "Say hello! This is just a test."}
             ]
         )
 

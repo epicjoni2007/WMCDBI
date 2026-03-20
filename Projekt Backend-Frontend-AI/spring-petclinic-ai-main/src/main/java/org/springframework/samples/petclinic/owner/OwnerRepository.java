@@ -62,4 +62,10 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 	 */
 	Optional<Owner> findById(@Nonnull Integer id);
 
+	// Suche nach Email (für Auth)
+	Optional<Owner> findByEmail(String email);
+
+	// Suche nach Stadt (für Filter)
+	Page<Owner> findByCityContainingIgnoreCase(String city, Pageable pageable);
+
 }
