@@ -23,15 +23,17 @@ import org.springframework.samples.petclinic.model.Person;
 import org.springframework.util.Assert;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -62,6 +64,17 @@ public class Owner extends Person {
 	@Pattern(regexp = "\\d{10}", message = "{telephone.invalid}")
 	private String telephone;
 
+	@Column(name = "email", unique = true)
+	private String email;
+
+	@Column(name = "password")
+	private String password;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "owner_roles", joinColumns = @JoinColumn(name = "owner_id"))
+	@Column(name = "role")
+	private java.util.Set<String> roles = new java.util.HashSet<>();
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "owner_id")
 	@OrderBy("name")
@@ -89,6 +102,30 @@ public class Owner extends Person {
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public java.util.Set<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(java.util.Set<String> roles) {
+		this.roles = roles;
 	}
 
 	public List<Pet> getPets() {

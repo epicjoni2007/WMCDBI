@@ -54,7 +54,7 @@ def main():
     prompt = "What is the meaning of an LIVE"
     try:
         r = client.responses.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             input=prompt,
             timeout=15.0
         )

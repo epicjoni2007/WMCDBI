@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -26,9 +25,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
+import org.junit.jupiter.api.condition.DisabledIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
@@ -52,6 +51,7 @@ import org.testcontainers.DockerClientFactory;
 		"spring.docker.compose.start.arguments=--force-recreate,--renew-anon-volumes,postgres" })
 @ActiveProfiles("postgres")
 @DisabledInNativeImage
+@DisabledIfDockerUnavailable
 public class PostgresIntegrationTests {
 
 	@LocalServerPort
@@ -62,11 +62,6 @@ public class PostgresIntegrationTests {
 
 	@Autowired
 	private RestTemplateBuilder builder;
-
-	@BeforeAll
-	static void available() {
-		assumeTrue(DockerClientFactory.instance().isDockerAvailable(), "Docker not available");
-	}
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(PetClinicApplication.class) //

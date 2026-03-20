@@ -9,11 +9,35 @@ INSERT INTO specialties (name) SELECT 'radiology' WHERE NOT EXISTS (SELECT * FRO
 INSERT INTO specialties (name) SELECT 'surgery' WHERE NOT EXISTS (SELECT * FROM specialties WHERE name='surgery'); 
 INSERT INTO specialties (name) SELECT 'dentistry' WHERE NOT EXISTS (SELECT * FROM specialties WHERE name='dentistry');
 
-INSERT INTO vet_specialties VALUES (2, 1) ON CONFLICT (vet_id, specialty_id) DO NOTHING;
-INSERT INTO vet_specialties VALUES (3, 2) ON CONFLICT (vet_id, specialty_id) DO NOTHING;
-INSERT INTO vet_specialties VALUES (3, 3) ON CONFLICT (vet_id, specialty_id) DO NOTHING;
-INSERT INTO vet_specialties VALUES (4, 2) ON CONFLICT (vet_id, specialty_id) DO NOTHING;
-INSERT INTO vet_specialties VALUES (5, 1) ON CONFLICT (vet_id, specialty_id) DO NOTHING;
+INSERT INTO vet_specialties (vet_id, specialty_id)
+SELECT 2, 1
+WHERE NOT EXISTS (
+  SELECT 1 FROM vet_specialties WHERE vet_id = 2 AND specialty_id = 1
+);
+
+INSERT INTO vet_specialties (vet_id, specialty_id)
+SELECT 3, 2
+WHERE NOT EXISTS (
+  SELECT 1 FROM vet_specialties WHERE vet_id = 3 AND specialty_id = 2
+);
+
+INSERT INTO vet_specialties (vet_id, specialty_id)
+SELECT 3, 3
+WHERE NOT EXISTS (
+  SELECT 1 FROM vet_specialties WHERE vet_id = 3 AND specialty_id = 3
+);
+
+INSERT INTO vet_specialties (vet_id, specialty_id)
+SELECT 4, 2
+WHERE NOT EXISTS (
+  SELECT 1 FROM vet_specialties WHERE vet_id = 4 AND specialty_id = 2
+);
+
+INSERT INTO vet_specialties (vet_id, specialty_id)
+SELECT 5, 1
+WHERE NOT EXISTS (
+  SELECT 1 FROM vet_specialties WHERE vet_id = 5 AND specialty_id = 1
+);
 
 INSERT INTO types (name) SELECT 'cat' WHERE NOT EXISTS (SELECT * FROM types WHERE name='cat');
 INSERT INTO types (name) SELECT 'dog' WHERE NOT EXISTS (SELECT * FROM types WHERE name='dog');

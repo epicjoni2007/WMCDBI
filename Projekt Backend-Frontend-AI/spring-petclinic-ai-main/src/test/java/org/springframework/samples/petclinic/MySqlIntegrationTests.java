@@ -43,6 +43,7 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers(disabledWithoutDocker = true)
 @DisabledInNativeImage
 @DisabledInAotMode
+@DisabledIfDockerUnavailable
 class MySqlIntegrationTests {
 
 	@ServiceConnection

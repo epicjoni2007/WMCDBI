@@ -10,54 +10,55 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/pets")
 public class PetRestController {
-    @Autowired
-    private PetRepository petRepository;
 
-    @GetMapping
-    public List<Pet> getAllPets() {
-        return petRepository.findAll();
-    }
+	@Autowired
+	private PetRepository petRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Pet> getPetById(@PathVariable Integer id) {
-        Optional<Pet> pet = petRepository.findById(id);
-        return pet.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+	@GetMapping
+	public List<Pet> getAllPets() {
+		return petRepository.findAll();
+	}
 
-    @PostMapping
-    public Pet createPet(@RequestBody Pet pet) {
-        return petRepository.save(pet);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<Pet> getPetById(@PathVariable Integer id) {
+		Optional<Pet> pet = petRepository.findById(id);
+		return pet.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Pet> updatePet(@PathVariable Integer id, @RequestBody Pet petDetails) {
-        Optional<Pet> petOptional = petRepository.findById(id);
-        if (!petOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        Pet pet = petOptional.get();
-        pet.setName(petDetails.getName());
-        pet.setType(petDetails.getType());
-        pet.setBirthDate(petDetails.getBirthDate());
-        pet.setWeight(petDetails.getWeight());
-        pet.setBreed(petDetails.getBreed());
-        pet.setVaccinated(petDetails.getVaccinated());
-        return ResponseEntity.ok(petRepository.save(pet));
-    }
+	@PostMapping
+	public Pet createPet(@RequestBody Pet pet) {
+		return petRepository.save(pet);
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePet(@PathVariable Integer id) {
-        if (!petRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        petRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<Pet> updatePet(@PathVariable Integer id, @RequestBody Pet petDetails) {
+		Optional<Pet> petOptional = petRepository.findById(id);
+		if (!petOptional.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		Pet pet = petOptional.get();
+		pet.setName(petDetails.getName());
+		pet.setType(petDetails.getType());
+		pet.setBirthDate(petDetails.getBirthDate());
+		pet.setWeight(petDetails.getWeight());
+		pet.setBreed(petDetails.getBreed());
+		pet.setVaccinated(petDetails.getVaccinated());
+		return ResponseEntity.ok(petRepository.save(pet));
+	}
 
-    @GetMapping("/{id}/age")
-    public ResponseEntity<Integer> getPetAge(@PathVariable Integer id) {
-        Optional<Pet> pet = petRepository.findById(id);
-        return pet.map(p -> ResponseEntity.ok(p.getAge())).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletePet(@PathVariable Integer id) {
+		if (!petRepository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		petRepository.deleteById(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/{id}/age")
+	public ResponseEntity<Integer> getPetAge(@PathVariable Integer id) {
+		Optional<Pet> pet = petRepository.findById(id);
+		return pet.map(p -> ResponseEntity.ok(p.getAge())).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
 }
-

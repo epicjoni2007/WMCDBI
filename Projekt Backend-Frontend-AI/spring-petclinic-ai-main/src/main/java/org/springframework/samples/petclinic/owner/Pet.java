@@ -66,17 +66,12 @@ public class Pet extends NamedEntity {
 	@Column(name = "breed")
 	private String breed;
 
-<<<<<<< Updated upstream
-	@Column(name = "vaccination_status")
-	private String vaccinationStatus;
-=======
 	@Column(name = "vaccinated")
 	private Boolean vaccinated;
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
->>>>>>> Stashed changes
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
@@ -118,14 +113,6 @@ public class Pet extends NamedEntity {
 		this.breed = breed;
 	}
 
-<<<<<<< Updated upstream
-	public String getVaccinationStatus() {
-		return vaccinationStatus;
-	}
-
-	public void setVaccinationStatus(String vaccinationStatus) {
-		this.vaccinationStatus = vaccinationStatus;
-=======
 	public Boolean getVaccinated() {
 		return vaccinated;
 	}
@@ -143,9 +130,9 @@ public class Pet extends NamedEntity {
 	}
 
 	public int getAge() {
-		if (birthDate == null) return -1;
+		if (birthDate == null)
+			return -1;
 		return java.time.Period.between(birthDate, java.time.LocalDate.now()).getYears();
->>>>>>> Stashed changes
 	}
 
 }

@@ -5,18 +5,71 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf2dbfe3-9cc4-4c40-8516-fb0e258a5bb8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/Lastenheft_SpringPetclinic_Flutter.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/Petclinic.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/app.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/models/owner.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/pages/home_page.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/pages/owners/owner_detail_page.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/pages/owners/owners_list_page.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/providers/owner_provider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/services/api_service.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/widgets/app_drawer.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../petclinic-frontend/test/models_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../petclinic-frontend/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../petclinic-frontend/lib/main.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/AuxController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/OwnerApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/PetApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/StatsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/VetApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/controller/VisitApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/AuthResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/LoginDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/OwnerCreateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/OwnerDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/OwnerUpdateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/PetCreateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/PetDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/PetUpdateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/RefreshRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/RegisterDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/VetDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/VisitCreateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/dto/VisitDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/mapper/OwnerMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/mapper/PetMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/mapper/VetMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/mapper/VisitMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/api/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/config/OpenApiConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/vet/SpecialtyRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/DisabledIfDockerUnavailable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/DockerCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/owner/PetServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1 openai-key.python-setup/hs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1 openai-key.python-setup/openai-api-key-db.py" beforeDir="false" afterPath="$PROJECT_DIR$/1 openai-key.python-setup/openai-api-key-db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3 spring-pet-clinic-ai/openai-api-key-test.py" beforeDir="false" afterPath="$PROJECT_DIR$/3 spring-pet-clinic-ai/openai-api-key-test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/Owner.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/Owner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/Pet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetAgeResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetAgeResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/owner/PetTypeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/stats/StatsRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/stats/StatsRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/vet/VetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/vet/VetRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/visit/VisitRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/java/org/springframework/samples/petclinic/visit/VisitRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/application-postgres.properties" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/application-postgres.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/h2/generate_records.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/h2/generate_records.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/h2/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/h2/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/hsqldb/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/hsqldb/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/V2__add_pet_fields.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/V2__add_pet_fields.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/mysql/user.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/postgres/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/postgres/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/postgres/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/db/postgres/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/templates/owners/ownerDetails.html" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/main/resources/templates/owners/ownerDetails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/MySqlIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/MySqlIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/PostgresIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/PostgresIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-petclinic-ai-main/src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,24 +79,57 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/NB-Florian/Documents/Schule/WMCDBI/Projekt Backend-Frontend-AI" value="36jl1onAw2kZUNsB8dtH3abRe91" />
+    </persistenceIdMap>
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/spring-petclinic-ai-main">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "fromonoa"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;fromonoa&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/epicjoni2007/WMCDBI.git",
-    "accountId": "f9fd87ef-a51b-4277-aa6c-cbf7d2a1038d"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/epicjoni2007/WMCDBI.git&quot;,
+    &quot;accountId&quot;: &quot;f9fd87ef-a51b-4277-aa6c-cbf7d2a1038d&quot;
   }
+}</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
 }]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="36jl1onAw2kZUNsB8dtH3abRe91" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -51,20 +137,140 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.Build spring-petclinic-ai-main.executor": "Run",
+    "Gradle.C:/Users/NB-Florian/Documents/Schule/WMCDBI/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/build.gradle.executor": "Run",
+    "Python.example.executor": "Run",
+    "Python.openai-api-key-db.executor": "Run",
+    "Python.openai-api-key-test.executor": "Run",
+    "Python.openai-api-key.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "Spring Boot.PetClinicApplication.executor": "Run",
+    "Spring Boot.Unnamed.executor": "Run",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Flo",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/NB-Florian/Documents/Schule/WMCDBI/Projekt Backend-Frontend-AI",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
-    "show.migrate.to.gradle.popup": "false"
+    "last_opened_file_path": "C:/Users/NB-Florian/Documents/Schule/WMCDBI/Projekt Backend-Frontend-AI/spring-petclinic-ai-main/settings.gradle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="example" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Projekt Backend-Frontend-AI" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="openai-api-key-db" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Projekt Backend-Frontend-AI" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="OPENAI_API_KEY" value="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" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/1 openai-key.python-setup" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/1 openai-key.python-setup/openai-api-key-db.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="openai-api-key-test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Projekt Backend-Frontend-AI" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="OPENAI_API_KEY" value="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" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/3 spring-pet-clinic-ai" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3 spring-pet-clinic-ai/openai-api-key-test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PetClinicApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="spring-petclinic.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.springframework.samples.petclinic.PetClinicApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Projekt Backend-Frontend-AI" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="PetClinicApplication.java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Python.example" />
+      <item itemvalue="Python.openai-api-key-db" />
+      <item itemvalue="Python.openai-api-key-test" />
+      <item itemvalue="Spring Boot.PetClinicApplication" />
+      <item itemvalue="Spring Boot.Unnamed" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.openai-api-key-test" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -73,7 +279,41 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1765527648370</updated>
+      <workItem from="1769426683576" duration="1827000" />
+      <workItem from="1769428541003" duration="192000" />
+      <workItem from="1769592933850" duration="606000" />
+      <workItem from="1769755398878" duration="338000" />
+      <workItem from="1769755864253" duration="666000" />
+      <workItem from="1769756549754" duration="555000" />
+      <workItem from="1769775319783" duration="1929000" />
+      <workItem from="1769781000816" duration="395000" />
+      <workItem from="1770363459761" duration="3449000" />
+      <workItem from="1771398876979" duration="397000" />
+      <workItem from="1771399386905" duration="303000" />
+      <workItem from="1771399780104" duration="799000" />
+      <workItem from="1771409733607" duration="594000" />
+      <workItem from="1772180545652" duration="585000" />
+      <workItem from="1772192085091" duration="83000" />
+      <workItem from="1772786387555" duration="18000" />
+      <workItem from="1772786419668" duration="4309000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Projekt_Backend_Frontend_AI$example.coverage" NAME="example Coverage Results" MODIFIED="1769428543811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projekt_Backend_Frontend_AI$openai_api_key.coverage" NAME="openai-api-key Coverage Results" MODIFIED="1769755726156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/1 openai-key.python-setup" />
+    <SUITE FILE_PATH="coverage/Projekt_Backend_Frontend_AI$openai_api_key_test.coverage" NAME="openai-api-key-test Coverage Results" MODIFIED="1771399014655" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3 spring-pet-clinic-ai" />
+    <SUITE FILE_PATH="coverage/Projekt_Backend_Frontend_AI$openai_api_key_db.coverage" NAME="openai-api-key-db Coverage Results" MODIFIED="1769428247272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/1 openai-key.python-setup" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
